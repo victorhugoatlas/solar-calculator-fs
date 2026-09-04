@@ -1,0 +1,17 @@
+{
+  "name": "Solar Calculator by VH",
+  "short_name": "Solar Calc",
+  "description": "Calculadora de dimensionamento e custos de energia solar",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme-color": "#121212",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/979/979585.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

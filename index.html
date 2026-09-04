@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Calculator by VH</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#121212">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #bbbbbb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #121212;
+            width: 100%;
+            max-width: 500px;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #f1c40f;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .section-label {
+            color: #444444;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin: 15px 0 5px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .row-main {
+            margin-bottom: 8px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        label {
+            font-size: 0.9rem;
+        }
+
+        input {
+            background-color: #1e1e1e;
+            color: #f1c40f;
+            border: none;
+            padding: 6px 10px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-align: right;
+            width: 140px;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input:disabled {
+            color: #f1c40f;
+            opacity: 0.85;
+            cursor: not-allowed;
+        }
+
+        .lbl-rs {
+            color: #666666;
+            font-size: 0.8rem;
+            text-align: right;
+            margin-top: 2px;
+            display: block;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background-color: #f1c40f;
+            margin: 25px 0 15px 0;
+        }
+
+        .total {
+            color: #2ecc71;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .footer-note {
+            color: #555555;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Solar Calculator by VH</h1>
+
+    <div class="section-label">Dimensionamento</div>
+    
+    <div class="row-main">
+        <div class="row">
+            <label>Consumo Mensal (kWh/mês)</label>
+            <input type="text" id="kwh_mes" value="">
+        </div>
+    </div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Consumo Diário (kWh/dia)</label>
+            <input type="text" id="kwh_dia" value="0.00" disabled>
+        </div>
+    </div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Eficiência (%)</label>
+            <input type="text" id="eficiencia" value="74">
+        </div>
+    </div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Radiação (kWh/m²)</label>
+            <input type="text" id="radiacao" value="5.6">
+        </div>
+    </div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Potência de Pico (kWp)</label>
+            <input type="text" id="kwp" value="">
+        </div>
+    </div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Potência Módulo (W)</label>
+            <input type="text" id="pot_placa" value="700">
+        </div>
+    </div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Nº de Placas (un)</label>
+            <input type="text" id="placas" value="" disabled>
+        </div>
+    </div>
+
+    <div class="section-label">Custos Diretos</div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Equipamentos (R$)</label>
+            <input type="text" id="equip" value="">
+        </div>
+    </div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Instalação por Placa (R$)</label>
+            <input type="text" id="inst_unit" value="100">
+        </div>
+    </div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Projeto Técnico (R$)</label>
+            <input type="text" id="proj" value="575">
+        </div>
+    </div>
+
+    <div class="section-label">Taxas em Cascata</div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Infraestrutura (%)</label>
+            <input type="text" id="infra_pct" value="7">
+        </div>
+        <span class="lbl-rs" id="rs_infra_pct">= R$ 0,00</span>
+    </div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Markup (%)</label>
+            <input type="text" id="markup_pct" value="25">
+        </div>
+        <span class="lbl-rs" id="rs_markup_pct">= R$ 0,00</span>
+    </div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Reserva de Caixa (%)</label>
+            <input type="text" id="reserva_pct" value="5">
+        </div>
+        <span class="lbl-rs" id="rs_reserva_pct">= R$ 0,00</span>
+    </div>
+
+    <div class="row-main">
+        <div class="row">
+            <label>Imposto (%)</label>
+            <input type="text" id="imposto_pct" value="6">
+        </div>
+        <span class="lbl-rs" id="rs_imposto_pct">= R$ 0,00</span>
+    </div>
+
+    <hr>
+
+    <div class="total" id="lbl_total">TOTAL: R$ 0,00</div>
+    <div class="footer-note">Solar Calculator Portable by VH</div>
+</div>
+
+<script>
+    let quemManda = "kwh_mes";
+
+    const inputs = [
+        "kwh_mes", "kwh_dia", "eficiencia", "radiacao", "kwp", 
+        "placas", "pot_placa", "equip", "inst_unit", "proj", 
+        "infra_pct", "markup_pct", "reserva_pct", "imposto_pct"
+    ];
+
+    const el = {};
+    inputs.forEach(id => el[id] = document.getElementById(id));
+    el.lbl_total = document.getElementById("lbl_total");
+
+    const rsLabels = {
+        infra_pct: document.getElementById("rs_infra_pct"),
+        markup_pct: document.getElementById("rs_markup_pct"),
+        reserva_pct: document.getElementById("rs_reserva_pct"),
+        imposto_pct: document.getElementById("rs_imposto_pct")
+    };
+
+    ["kwh_mes", "kwp"].forEach(id => {
+        el[id].addEventListener("focus", () => quemManda = id);
+        el[id].addEventListener("input", () => quemManda = id);
+    });
+
+    inputs.forEach(id => {
+        el[id].addEventListener("input", calcular);
+    });
+
+    function getF(id) {
+        let val = el[id].value.replace(",", ".");
+        return (val && val !== ".") ? parseFloat(val) : 0.0;
+    }
+
+    function fmt(val) {
+        return "R$ " + val.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function calcular() {
+        try {
+            let eff = getF("eficiencia") / 100;
+            let rad = getF("radiacao");
+            let potM = getF("pot_placa");
+
+            if (quemManda === "kwh_mes") {
+                let kwhM = getF("kwh_mes");
+                let kwhD = kwhM / 30;
+                el["kwh_dia"].value = kwhD.toFixed(2);
+                if (rad > 0 && eff > 0) {
+                    el["kwp"].value = (kwhD / (rad * eff)).toFixed(2);
+                }
+            } else if (quemManda === "kwp") {
+                let kwpIn = getF("kwp");
+                if (rad > 0 && eff > 0) {
+                    let kwhMCalc = kwpIn * rad * eff * 30;
+                    el["kwh_mes"].value = kwhMCalc.toFixed(2);
+                    el["kwh_dia"].value = (kwhMCalc / 30).toFixed(2);
+                }
+            }
+
+            let nPlacas = (potM > 0) ? Math.ceil((getF("kwp") * 1000) / potM) : 0;
+            el["placas"].value = nPlacas;
+
+            let base = getF("equip") + (nPlacas * getF("inst_unit")) + getF("proj");
+
+            let valorInfra = base * (getF("infra_pct") / 100);
+            rsLabels["infra_pct"].innerText = `= ${fmt(valorInfra)}`;
+            base += valorInfra;
+
+            let valorMarkup = base * (getF("markup_pct") / 100);
+            rsLabels["markup_pct"].innerText = `= ${fmt(valorMarkup)}`;
+            base += valorMarkup;
+
+            let valorReserva = base * (getF("reserva_pct") / 100);
+            rsLabels["reserva_pct"].innerText = `= ${fmt(valorReserva)}`;
+            base += valorReserva;
+
+            let valorImposto = base * (getF("imposto_pct") / 100);
+            rsLabels["imposto_pct"].innerText = `= ${fmt(valorImposto)}`;
+            let totalFinal = base + valorImposto;
+
+            el.lbl_total.innerText = `TOTAL: ${fmt(totalFinal)}`;
+
+        } catch (err) {
+        }
+    }
+</script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('Service Worker registrado com sucesso!', reg.scope))
+                .catch(err => console.log('Falha ao registrar o Service Worker:', err));
+        });
+    }
+</script>
+</body>
+</html>
